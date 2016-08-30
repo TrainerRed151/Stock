@@ -5,7 +5,8 @@ JC = javac
 
 CLASSES = \
 	Quote.java \
-	Stock.java
+	Stock.java \
+	BrianReader.java
 
 default: classes
 
