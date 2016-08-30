@@ -3,10 +3,15 @@
 import java.net.URL;
 import java.io.*;
 
+
 public class Quote {
     private String symbol;
     private float price;
     private float change;
+
+    private final String ANSI_RESET = "\u001B[0m";
+    private final String ANSI_GREEN = "\u001B[32m";
+    private final String ANSI_RED = "\u001B[31m";
 
     public Quote(String s) {
         symbol = s;
@@ -38,10 +43,6 @@ public class Quote {
             url = new URL(address);
             is = url.openStream();
             br = new BufferedReader(new InputStreamReader(is));
-
-            //while ((line = br.readLine()) != null) {
-            //    System.out.println(line);
-            //}
             
             line = br.readLine();
 
@@ -61,15 +62,12 @@ public class Quote {
         String s;
         String color;
 
-        /* Color not working
         if (change < 0) {
-            color = "\u001B31;1m";
+            color = ANSI_RED;
         }
         else {
-            color = "\u002B31;1m";
+            color = ANSI_GREEN;
         }
-        */
-        color = "";
 
         if (change < 0) {
             s = color + symbol + ":\t" + price + "\t" + change;
@@ -78,6 +76,6 @@ public class Quote {
             s = color + symbol + ":\t" + price + "\t+" +change;
         }
         
-        return s;
+        return s + ANSI_RESET;
     }
 }
