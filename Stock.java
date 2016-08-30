@@ -37,8 +37,10 @@ public class Stock {
     }
 
     public static void cls() {
-        for (int i = 0; i < 30; i++) {
-            System.out.println();
-        }
+        System.out.print("\033[H\033[2J");
+        
+        //for (int i = 0; i < 30; i++) {
+        //    System.out.println();
+        //}
     }
 }
