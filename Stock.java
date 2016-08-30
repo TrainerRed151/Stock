@@ -24,8 +24,8 @@ public class Stock {
         }
 
         while (true) {
-            //reader.cls();
-            cls();
+            reader.cls();
+            //cls();
             
             for (int i = 0; i < stocks.size(); i++) {
                 stocks.get(i).update();
