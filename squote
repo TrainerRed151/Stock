@@ -1,0 +1,40 @@
+# Copyright © 2016 Brian Pomerantz. All Rights Reserved.
+
+#!/bin/bash
+
+WHITE=$(tput setaf 7)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+
+a='http://download.finance.yahoo.com/d/quotes.csv?s='
+b='&f=l1c1'
+
+for stock in "$@"
+do
+    c=$a$stock$b
+    info=$(curl -s $c)
+
+    if [ ${#info} -eq 0 ]
+    then
+        printf "%s\n" "$stock"
+        continue
+    fi
+
+    prefix=${info%%,*}
+    pos=${#prefix}
+
+    price=${info:0:pos}
+    change=${info:pos+1}
+
+    if [ ${#price} -gt 7 ]
+    then
+        price=${price:0:7}
+    fi
+
+    if [ ${change:0:1} = "-" ]
+    then
+        printf "${RED}%s:\t%s\t%s\n${WHITE}" "$stock" "$price" "$change"
+    else
+        printf "${GREEN}%s:\t%s\t%s\n${WHITE}" "$stock" "$price" "$change"
+    fi
+done
