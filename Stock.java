@@ -19,7 +19,7 @@ public class Stock {
 
         String temp = reader.readFileLine();
         temp = reader.readFileLine();
-        int c = 13
+        int c = 13;
         while (temp != "") {
             if (temp.indexOf((char) c) != -1) {
                 temp = temp.substring(0,temp.indexOf((char) c));
