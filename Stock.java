@@ -18,7 +18,6 @@ public class Stock {
         LinkedList<Quote> stocks = new LinkedList<Quote>();
 
         String temp = reader.readFileLine();
-        temp = reader.readFileLine();
         int c = 13;
         while (temp != "") {
             if (temp.indexOf((char) c) != -1) {
