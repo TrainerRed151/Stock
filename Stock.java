@@ -7,7 +7,7 @@ public class Stock {
         int time;
 
         if (args.length == 0) {
-            time = 10;
+            time = 60;
         }
         else {
             time = Integer.parseInt(args[0]);
@@ -18,14 +18,20 @@ public class Stock {
         LinkedList<Quote> stocks = new LinkedList<Quote>();
 
         String temp = reader.readFileLine();
+        temp = reader.readFileLine();
+        int c = 13
         while (temp != "") {
+            if (temp.indexOf((char) c) != -1) {
+                temp = temp.substring(0,temp.indexOf((char) c));
+            }
+
             stocks.add(new Quote(temp));
             temp = reader.readFileLine();
         }
 
         while (true) {
-            reader.cls();
-            //cls();
+            //reader.cls();
+            cls();
             
             for (int i = 0; i < stocks.size(); i++) {
                 stocks.get(i).update();
