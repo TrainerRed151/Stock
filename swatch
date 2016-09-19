@@ -1,12 +1,11 @@
-# Copyright © 2016 Brian Pomerantz. All Rights Reserved.
-
 #!/bin/bash
 
 while :;
 do
     clear;
     echo "$(date)"
-    #~/squote $(cat ~/stocks.txt)
     java Stock
     sleep $1;
 done
+
+# Copyright © 2016 Brian Pomerantz. All Rights Reserved.
