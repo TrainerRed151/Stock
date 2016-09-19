@@ -23,17 +23,17 @@ public class Stock {
             temp = reader.readFileLine();
         }
 
-        while (true) {
+        //while (true) {
             //reader.cls();
-            cls();
+            //cls();
             
             for (int i = 0; i < stocks.size(); i++) {
                 stocks.get(i).update();
                 System.out.println(stocks.get(i));
             }
 
-            Thread.sleep(time*1000);
-        }
+            //Thread.sleep(time*1000);
+        //}
     }
 
     public static void cls() {

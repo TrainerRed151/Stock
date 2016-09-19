@@ -3,10 +3,10 @@
 import java.net.URL;
 import java.io.*;
 
-
 public class Quote {
     private String symbol;
-    private float price, change, ma50, ma200;
+    private float price;
+    private float change;
 
     private final String ANSI_RESET = "\u001B[0m";
     private final String ANSI_GREEN = "\u001B[32m";
@@ -16,8 +16,6 @@ public class Quote {
         symbol = s;
         price = 0;
         change = 0;
-        ma50 = 0;
-        ma200 = 0;
     }
 
     public String getSymbol() {
@@ -32,56 +30,44 @@ public class Quote {
         return change;
     }
 
-    public float getMA50() {
-        return ma50;
-    }
-
-    public float getMA200() {
-        return ma200;
-    }
-
     public boolean update() {
         URL url;
         InputStream is = null;
         BufferedReader br;
         String line;
 
-        String address = "http://download.finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=l1c1m3m4";
+        String address = "http://finance.google.com/finance/info?client=ig&q=" + symbol;
 
         try {
             url = new URL(address);
             is = url.openStream();
             br = new BufferedReader(new InputStreamReader(is));
-            
+
+            //while ((line = br.readLine()) != null) {
+            //    System.out.println(line);
+            //}
+
+            for (int i = 0; i < 7; i++) {
+                line = br.readLine();
+            }
+
             line = br.readLine();
 
-            /*
-            float[] info = new float[2];
-            int comma = -1;
+            int lstart = 12;
+            int lend = line.substring(lstart).indexOf('\"') + lstart;
 
-            for (int i = 0; i < info.length; i++) {
-                line = line.substring(comma+1);
-                comma = line.indexOf(',');
-                info[i] = Float.parseFloat(line.substring(0,comma));
-                System.out.println(info[i]);
+            price = Float.parseFloat(line.substring(lstart,lend));
+            
+            for (int i = 0; i < 5; i++) {
+                line = br.readLine();
             }
-            */
 
-            int comma = line.indexOf(',');
-            int comma2 = line.substring(comma+1).indexOf(',') + comma + 1;
-            int comma3 = line.substring(comma2+1).indexOf(',') + comma2 + 1;
-
-            price = Float.parseFloat(line.substring(0,comma));
-            change = Float.parseFloat(line.substring(comma+1, comma2));
-            ma50 = Float.parseFloat(line.substring(comma2+1, comma3));
-            ma200 = Float.parseFloat(line.substring(comma3+1));
- 
-            /*
-            System.out.println(info[0]);
-            price = info[0];
-            change = info[1];
-            System.out.println(price);
-            */
+            line = br.readLine();
+            
+            int cstart = 8;
+            int cend = line.substring(cstart).indexOf('\"') + cstart;
+            
+            change = Float.parseFloat(line.substring(cstart,cend));
 
             return true;
         }
@@ -102,10 +88,10 @@ public class Quote {
         }
 
         if (change < 0) {
-            s = color + symbol + ":\t" + price + "\t" + change + "\t" + ma50 + ":" + ma200;
+            s = color + symbol + ":\t" + price + "\t" + change;
         }
         else {
-            s = color + symbol + ":\t" + price + "\t+" + change + "\t" + ma50 + ":" + ma200;
+            s = color + symbol + ":\t" + price + "\t+" + change;
         }
         
         return s + ANSI_RESET;
