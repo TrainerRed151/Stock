@@ -32,7 +32,7 @@ public class Quote {
         BufferedReader br;
         String line;
 
-        String address = "http://finance.google.com/finance/info?client=ig&q=" + symbol;
+        String address = "http://download.finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=l1c1";
 
         try {
             url = new URL(address);
@@ -42,28 +42,13 @@ public class Quote {
             //while ((line = br.readLine()) != null) {
             //    System.out.println(line);
             //}
-
-            for (int i = 0; i < 6; i++) {
-                line = br.readLine();
-            }
-
+            
             line = br.readLine();
 
-            int lstart = 8;
-            int lend = line.substring(lstart).indexOf('\"') + 8;
+            int comma = line.indexOf(',');
 
-            price = Float.parseFloat(line.substring(lstart,lend));
-            
-            for (int i = 0; i < 6; i++) {
-                line = br.readLine();
-            }
-
-            line = br.readLine();
-            
-            int cstart = 8;
-            int cend = line.substring(cstart).indexOf('\"') + 8;
-            
-            change = Float.parseFloat(line.substring(cstart,cend));
+            price = Float.parseFloat(line.substring(0,comma));
+            change = Float.parseFloat(line.substring(comma+1));
 
             return true;
         }
