@@ -1,0 +1,38 @@
+# Copyright © 2017 Brian Pomerantz. All Rights Reserved.
+
+#!/bin/bash
+
+a='http://download.finance.yahoo.com/d/quotes.csv?s='
+b='&f=l1c1'
+
+touch $2
+
+for stock in `cat $1`
+do
+    
+    if [ "$stock" == "XAU" ] || [ "$stock" == "XAG" ] || [ "$stock" == "XPT" ]
+    then
+        append="USD=X"
+        stocklookup=$stock$append
+    else
+        stocklookup=$stock
+    fi
+    c=$a$stocklookup$b
+    info=$(curl -s $c)
+
+    if [ ${#info} -eq 0 ]
+    then
+        printf "%s\n" "$stock"
+        continue
+    fi
+
+    prefix=${info%%,*}
+    pos=${#prefix}
+
+    price=${info:0:pos}
+    change=${info:pos+1}
+
+    datestamp=`date '+%Y/%m/%d %H:%M:%S'`
+
+    printf "P $datestamp $stock \$$price\n" >> $2
+done
