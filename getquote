@@ -5,7 +5,10 @@
 a='http://download.finance.yahoo.com/d/quotes.csv?s='
 b='&f=l1c1'
 
-touch $2
+if [ $# -eq 2 ]
+then
+    touch $2
+fi
 
 for stock in `cat $1`
 do
@@ -34,5 +37,10 @@ do
 
     datestamp=`date '+%Y/%m/%d %H:%M:%S'`
 
-    printf "P $datestamp $stock \$$price\n" >> $2
+    if [ $# -eq 2 ]
+    then
+        printf "P $datestamp $stock \$$price\n" >> $2
+    else
+        printf "$stock\t$price\n"
+    fi
 done
